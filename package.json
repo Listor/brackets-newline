@@ -1,0 +1,14 @@
+{
+    "name": "lonelystorm.newline",
+    "title": "Newline",
+    "description": "Adds the ability to convert the newline character between CRLF <-> LF",
+    "homepage": "https://github.com/LonelyStorm/brackets-newline",
+    "version": "0.0.1",
+    "author": "LonelyStorm <support@lonelystorm.com> (https://github.com/LonelyStorm)",
+    "license": "GNU LGPL v3.0",
+    "engines": {
+        "brackets": ">=1.4.0"
+    },
+    "i18n": [ "en" ],
+    "keywords": [ "newline", "eol", "crlf", "lf", "line ending", "line break", "end of line", "line feed", "carriage return" ]
+}
