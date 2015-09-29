@@ -1,0 +1,12 @@
+# Default
+* text=auto
+
+# Binary
+*.png binary
+
+# Text
+*.css text
+*.js text
+*.json text
+*.md text
+LICENSE text
