@@ -17,6 +17,6 @@ The indicator will display the current newline character for the open file.
 In order to change the newline character, click on the indicator to automatically convert the character as per the table below.
 
 | Current Newline Character | Future Newline Character |
-| - | - |
+| --- | --- |
 | CRLF | LF |
 | LF | CRLF |
