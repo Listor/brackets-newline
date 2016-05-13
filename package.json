@@ -3,7 +3,7 @@
     "title": "Newline",
     "description": "Adds the ability to convert the newline character between CRLF <-> LF",
     "homepage": "https://github.com/LonelyStorm/brackets-newline",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "author": "LonelyStorm <support@lonelystorm.com> (https://github.com/LonelyStorm)",
     "license": "GNU LGPL v3.0",
     "engines": {
