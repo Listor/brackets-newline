@@ -39,7 +39,8 @@ define(function (require, exports, module) {
         ExtensionUtils = brackets.getModule("utils/ExtensionUtils"),
         FileSyncManager = brackets.getModule("project/FileSyncManager"),
         FileUtils = brackets.getModule("file/FileUtils"),
-        StatusBar = brackets.getModule("widgets/StatusBar");
+        StatusBar = brackets.getModule("widgets/StatusBar"),
+        PreferencesManager = brackets.getModule("preferences/PreferencesManager");
 
     // Internal Modules.
     var Strings = require("strings");
@@ -137,31 +138,73 @@ define(function (require, exports, module) {
      */
     function _onActiveEditorChange(event, current, previous) {
         if (current) {
-            _updateNewLineStatus(current.document);
+            if(_checkIfUpdateNeeded(current.document)) {
+                console.log('autoUpdated File ' + current.document.file._name + ' to defaultNewline');
+                _convertCurrentDocument();
+            }
+            else {
+                _updateNewLineStatus(current.document);
+            }
         }
     }
+  
+    /**
+     * Gets the Settings
+     */
+    function _getSettings() {
+        var prefs = PreferencesManager.getExtensionPrefs("brackets-newline");
+
+        return prefs.get("settings");
+    }
+  
+    /**
+     * Checks if a document needs to be updated when the default newline is specified in preferences
+     */
+    function _checkIfUpdateNeeded(document) {
+        var settings = _getSettings(),
+            update = false;
+
+        if(typeof settings !== 'undefined') {
+            var currentNewLineType = _currentNewLineType(document);
+			
+            if(currentNewLineType !== settings.defaultNewline) {
+                update = true;
+            }
+        }
+
+        return update;
+    }
+  
 
     /**
      * Initialization.
      */
     function _init() {
         $newline.on("click", function () {
-            var current = EditorManager.getCurrentFullEditor();
-            if (current) {
-                var document = current.document;
-                if (document) {
-                    var text = _convertText(_getDocumentText(document), _toggleNewLineType(document));
-                    var promise = _updateDocument(document, text);
-                    promise.done(function () {
-                        var promise = _reloadDocument(document);
-                        promise.done(function () {
-                            _updateNewLineStatus(document);
-                        });
-                    });
-                }
-            }
+            _convertCurrentDocument();
         });
     }
+  
+    /**
+     * Converts the current document
+     */
+    function _convertCurrentDocument() {
+        var current = EditorManager.getCurrentFullEditor();
+        if (current) {
+            var document = current.document;
+            if (document) {
+                var text = _convertText(_getDocumentText(document), _toggleNewLineType(document));
+                var promise = _updateDocument(document, text);
+                promise.done(function () {
+                    var promise = _reloadDocument(document);
+                    promise.done(function () {
+                        _updateNewLineStatus(document);
+                    });
+                });
+            }
+        }
+    }
+  
 
     ExtensionUtils.loadStyleSheet(module, "styles/newline.css");
 
